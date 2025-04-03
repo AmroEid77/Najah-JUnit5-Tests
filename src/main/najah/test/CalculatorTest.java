@@ -17,6 +17,6 @@ public class CalculatorTest {
 	void setUp() throws Exception {
 	}
 
-	
+
 
 }
