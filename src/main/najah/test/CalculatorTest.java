@@ -98,7 +98,7 @@ public class CalculatorTest {
     
  // Timeout test for factorial method (testing a large value)
     @Test
-    @Timeout(value = 6, unit = TimeUnit.SECONDS)
+    @Timeout(value = 5, unit = TimeUnit.SECONDS)
     @Order(5)
     @DisplayName("Test Factorial Method with timeout")
     public void testFactorialTimeout() {
