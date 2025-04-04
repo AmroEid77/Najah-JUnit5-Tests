@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import main.najah.code.Calculator;
 
@@ -50,4 +52,39 @@ public class CalculatorTest {
         assertEquals(0, calc.add(), "Adding no numbers should equal 0");
     }
 
+    // Invalid test for 'divide()' (division by zero)
+    @Test
+    @Order(2)
+    @DisplayName("Test Divide Method with invalid input (division by zero)")
+    public void testDivideByZero() {
+    	System.out.println("Running tests for the divide() method with invalid input");
+
+        assertThrows(ArithmeticException.class, () -> calc.divide(1, 0), "Dividing by 0 should throw ArithmeticException");
+    }
+
+    // Valid test for 'divide()' method
+    @Test
+    @Order(3)
+    @DisplayName("Test Divide Method with valid input")
+    public void testDivideValid() {
+    	System.out.println("Running tests for the divide() method with valid input");
+        assertEquals(2, calc.divide(6, 3), "6 divided by 3 should equal 2");
+    }
+
+    // Parameterized test for factorial
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 5})
+    @DisplayName("Test Factorial Method with parameterized values")
+    public void testFactorial(int input) {
+    	System.out.println("Running tests for the factorial() method with valid input");
+
+        if (input == 0) {
+            assertEquals(1, calc.factorial(0), "Factorial of 0 should equal 1");
+        } else if (input == 1) {
+            assertEquals(1, calc.factorial(1), "Factorial of 1 should equal 1");
+        } else if (input == 5) {
+            assertEquals(120, calc.factorial(5), "Factorial of 5 should equal 120");
+        }
+    }
+    
 }
