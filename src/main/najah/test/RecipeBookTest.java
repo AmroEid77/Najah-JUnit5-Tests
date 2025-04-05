@@ -2,13 +2,17 @@ package main.najah.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import main.najah.code.Recipe;
@@ -238,4 +242,69 @@ class RecipeBookTest {
         System.out.println("End of testEditNonExistingRecipe() method");
     }
 
+    // Parameterized test for adding recipes
+    @ParameterizedTest
+    @CsvSource({
+        "Espresso,true",
+        "Latte,false"
+    })
+    @DisplayName("Parameterized Test - Add Recipe with Same Name Multiple Times")
+    void testParameterizedAddRecipe(String name, boolean expectAdded) throws RecipeException {
+        System.out.println("Running tests for the testParameterizedAddRecipe() method");
+
+        Recipe r = new Recipe();
+        r.setName(name);
+        boolean first = book.addRecipe(r);
+
+        Recipe duplicate = new Recipe();
+        duplicate.setName(name);
+        boolean second = book.addRecipe(duplicate);
+
+        if (expectAdded) {
+            assertTrue(first, "Recipe should be added successfully first time");
+        } else {
+            assertFalse(second, "Duplicate recipe should not be added");
+        }
+
+        System.out.println("End of testParameterizedAddRecipe() method");
+    }
+
+    // Timeout test for adding a recipe within a specified time limit
+    @Test
+    @DisplayName("Timeout Test - Add Recipe Should Complete Quickly")
+    @Timeout(value = 5, unit = TimeUnit.MILLISECONDS)
+    void testAddRecipeTimeout() throws RecipeException {
+        System.out.println("Running tests for the testAddRecipeTimeout() method");
+
+        Recipe r = new Recipe();
+        r.setName("FastBrew");
+        assertTrue(book.addRecipe(r));
+
+        System.out.println("End of testAddRecipeTimeout() method");
+    }
+
+    // Multiple assertions to validate added recipes
+    @Test
+    @DisplayName("Multiple Assertions on Recipe Book")
+    void testMultipleAssertionsOnBook() throws RecipeException {
+        System.out.println("Running tests for the testMultipleAssertionsOnBook() method");
+
+        Recipe recipe1 = new Recipe();
+        recipe1.setName("Recipe1");
+        Recipe recipe2 = new Recipe();
+        recipe2.setName("Recipe2");
+
+        book.addRecipe(recipe1);
+        book.addRecipe(recipe2);
+
+        Recipe[] recipes = book.getRecipes();
+        assertAll("Recipe Array Assertions",
+            () -> assertNotNull(recipes[0], "First recipe should not be null"),
+            () -> assertNotNull(recipes[1], "Second recipe should not be null"),
+            () -> assertEquals("Recipe1", recipes[0].getName()),
+            () -> assertEquals("Recipe2", recipes[1].getName())
+        );
+
+        System.out.println("End of testMultipleAssertionsOnBook() method");
+    }
 }
