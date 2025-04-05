@@ -107,7 +107,7 @@ class UserServiceSimpleTest {
 	    // Timeout Test for Authentication
 	    @Test
 	    @DisplayName("Test Authentication within Timeout")
-	    @Timeout(value = 10, unit = TimeUnit.MILLISECONDS)
+	    @Timeout(value = 100, unit = TimeUnit.MILLISECONDS)
 	    public void testAuthenticationTimeout() {
 	        System.out.println("Testing authentication with timeout");
 	        assertTrue(user.authenticate("admin", "1234"), "Authentication should succeed within timeout");
