@@ -44,7 +44,7 @@ class RecipeBookTest {
         System.out.println("Cleaning up after test execution");
     }
     
- // Test valid recipe addition
+    // Test valid recipe addition
     @Test
     @DisplayName("Add Valid Recipe Successfully")
     void testAddValidRecipe() throws RecipeException {
@@ -93,6 +93,66 @@ class RecipeBookTest {
         assertThrows(RecipeException.class, () -> recipe1.setPrice("abc"));
 
         System.out.println("End of testNonNumericRecipeInputs() method");
+    }
+    
+    // Test getter methods for all attributes
+    @Test
+    @DisplayName("Test Getter Methods for Recipe Attributes")
+    void testGetters() throws RecipeException {
+        System.out.println("Running tests for the testGetters() method");
+
+        recipe1.setName("Latte");
+        recipe1.setAmtCoffee("3");
+        recipe1.setAmtMilk("2");
+        recipe1.setAmtSugar("1");
+        recipe1.setAmtChocolate("1");
+        recipe1.setPrice("40");
+
+        assertEquals("Latte", recipe1.getName());
+        assertEquals(3, recipe1.getAmtCoffee());
+        assertEquals(2, recipe1.getAmtMilk());
+        assertEquals(1, recipe1.getAmtSugar());
+        assertEquals(1, recipe1.getAmtChocolate());
+        assertEquals(40, recipe1.getPrice());
+
+        System.out.println("End of testGetters() method");
+    }
+
+    // Test equals method
+    @Test
+    @DisplayName("Test Equals Method for Recipe Objects")
+    void testEqualsMethod() throws RecipeException {
+        System.out.println("Running tests for the testEqualsMethod()");
+
+        RecipeBook amroBook = new RecipeBook();
+
+        recipe1.setName("Espresso");
+        recipe2.setName("Espresso");
+
+        assertTrue(recipe1.equals(recipe2), "Recipes with the same name should be equal");
+
+        assertTrue(recipe1.equals(recipe1), "Same object should be the same");
+
+        assertFalse(recipe1.equals(amroBook), "Different class should not be equal");
+
+        recipe2.setName("Cappuccino");
+        assertFalse(recipe1.equals(recipe2), "Recipes with different names should not be equal");
+
+        System.out.println("End of testEqualsMethod() method");
+    }
+
+    // Test hashCode method
+    @Test
+    @DisplayName("Test HashCode Method for Recipe Objects")
+    void testHashCode() throws RecipeException {
+        System.out.println("Running tests for the testHashCode() method");
+
+        recipe1.setName("Cappuccino");
+        recipe2.setName("Cappuccino");
+
+        assertEquals(recipe1.hashCode(), recipe2.hashCode(), "Recipes with the same name should have the same hashCode");
+
+        System.out.println("End of testHashCode() method");
     }
 
 }
