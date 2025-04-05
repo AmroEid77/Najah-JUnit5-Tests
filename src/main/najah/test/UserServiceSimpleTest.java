@@ -134,5 +134,15 @@ class UserServiceSimpleTest {
 
 	        System.out.println("Test passed: Multiple assertions checked successfully");
 	    }
+	    
+	    // Test with Long Email Name
+	    @Test
+	    @DisplayName("Test Email with Long Local Part")
+	    public void testLongLocalPartEmail() {
+	        System.out.println("Testing email with a very long local part");
+	        String longEmail = "a".repeat(100) + "@domain.com";
+	        assertTrue(user.isValidEmail(longEmail), "Email should be valid even with a long local part");
+	        System.out.println("Test passed: Long local part email is valid");
+	    }
 
 }
