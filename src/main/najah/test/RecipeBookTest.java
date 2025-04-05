@@ -154,5 +154,88 @@ class RecipeBookTest {
 
         System.out.println("End of testHashCode() method");
     }
+    
+    // Test setter method with valid values
+    @Test
+    @DisplayName("Test Setting Valid Values for Recipe Quantities")
+    void testValidSetters() throws RecipeException {
+        System.out.println("Running tests for the testValidSetters() method");
+
+        recipe1.setAmtCoffee("5");
+        recipe1.setAmtMilk("3");
+        recipe1.setAmtSugar("2");
+        recipe1.setAmtChocolate("1");
+        recipe1.setPrice("30");
+
+        assertEquals(5, recipe1.getAmtCoffee());
+        assertEquals(3, recipe1.getAmtMilk());
+        assertEquals(2, recipe1.getAmtSugar());
+        assertEquals(1, recipe1.getAmtChocolate());
+        assertEquals(30, recipe1.getPrice());
+
+        System.out.println("End of testValidSetters() method");
+    }
+
+    // Test delete existing recipe
+    @Test
+    @DisplayName("Delete Existing Recipe")
+    void testDeleteExistingRecipe() throws RecipeException {
+        System.out.println("Running tests for the testDeleteExistingRecipe() method");
+
+        recipe1.setName("Cappuccino");
+        book.addRecipe(recipe1);
+
+        String deleted = book.deleteRecipe(0);
+
+        assertEquals("Cappuccino", deleted);
+        assertEquals("", book.getRecipes()[0].getName(), "Deleted recipe should be reset");
+
+        System.out.println("End of testDeleteExistingRecipe() method");
+    }
+    
+    // Test delete invalid recipe index
+    @Test
+    @DisplayName("Delete Non-Existing Recipe Should Return Null")
+    void testDeleteInvalidIndex() {
+        System.out.println("Running tests for the testDeleteInvalidIndex() method");
+
+        String deleted = book.deleteRecipe(1);
+        assertNull(deleted, "Should return null for non-existent recipe");
+
+        System.out.println("End of testDeleteInvalidIndex() method");
+    }
+
+    // Test edit existing recipe
+    @Test
+    @DisplayName("Edit Existing Recipe")
+    void testEditExistingRecipe() throws RecipeException {
+        System.out.println("Running tests for the testEditExistingRecipe() method");
+
+        recipe1.setName("Cappuccino");
+        book.addRecipe(recipe1);
+
+        Recipe newRecipe = new Recipe();
+        newRecipe.setName("Latte");
+        String result = book.editRecipe(0, newRecipe);
+
+        assertEquals("Cappuccino", result);
+        assertEquals("", book.getRecipes()[0].getName(), "New recipe should be updated correctly");
+
+        System.out.println("End of testEditExistingRecipe() method");
+    }
+    
+    // Test editing non-existing recipe
+    @Test
+    @DisplayName("Edit Non-Existing Recipe Should Return Null")
+    void testEditNonExistingRecipe() throws RecipeException {
+        System.out.println("Running tests for the testEditNonExistingRecipe() method");
+
+        Recipe r = new Recipe();
+        r.setName("DoesNotExist");
+        String result = book.editRecipe(1, r);
+        assertNull(result);
+
+        System.out.println("End of testEditNonExistingRecipe() method");
+    }
 
 }
