@@ -2,14 +2,19 @@ package main.najah.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import main.najah.code.UserService;
 
@@ -84,6 +89,50 @@ class UserServiceSimpleTest {
 	        System.out.println("Testing valid username and password");
 	        assertTrue(user.authenticate("admin", "1234"), "Authentication should succeed with correct credentials");
 	        System.out.println("Test passed: Authentication succeeded for correct credentials");
+	    }
+	    
+	    // Parameterized Test for Invalid Emails using CSV input
+	    @ParameterizedTest
+	    @CsvSource({
+	        "amroeiddgmail.com, false",
+	        "admin@domain.com, true"
+	    })
+	    @DisplayName("Test Multiple Email Inputs (Valid and Invalid)")
+	    public void testMultipleEmailInputs(String email, boolean expectedValidity) {
+	        System.out.println("Testing email: " + email);
+	        assertEquals(expectedValidity, user.isValidEmail(email), "Email validity check failed");
+	        System.out.println("Test passed: Email validity for " + email);
+	    }
+
+	    // Timeout Test for Authentication
+	    @Test
+	    @DisplayName("Test Authentication within Timeout")
+	    @Timeout(value = 10, unit = TimeUnit.MILLISECONDS)
+	    public void testAuthenticationTimeout() {
+	        System.out.println("Testing authentication with timeout");
+	        assertTrue(user.authenticate("admin", "1234"), "Authentication should succeed within timeout");
+	        System.out.println("Test passed: Authentication succeeded within timeout");
+	    }
+
+	    // Test Multiple Assertions on UserService (Checking both email and authentication)
+	    @Test
+	    @DisplayName("Test Multiple Assertions on UserService")
+	    public void testMultipleAssertions() {
+	        System.out.println("Running tests for multiple assertions");
+
+	        // Email checks
+	        assertAll("Email Validity Check",
+	            () -> assertTrue(user.isValidEmail("amro.eidd@gmail.com"), "Valid email failed"),
+	            () -> assertFalse(user.isValidEmail("amroeiddgmail.com"), "Invalid email (no @) passed")
+	        );
+
+	        // Authentication checks
+	        assertAll("Authentication Check",
+	            () -> assertTrue(user.authenticate("admin", "1234"), "Valid credentials failed"),
+	            () -> assertFalse(user.authenticate("admin", "wrongpassword"), "Invalid credentials passed")
+	        );
+
+	        System.out.println("Test passed: Multiple assertions checked successfully");
 	    }
 
 }
