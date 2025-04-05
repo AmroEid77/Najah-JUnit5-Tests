@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import main.najah.code.Calculator;
@@ -79,21 +80,28 @@ public class CalculatorTest {
         assertEquals(2, calc.divide(6, 3), "6 divided by 3 should equal 2");
     }
 
-    // Parameterized test for factorial
+    // Parameterized test for factorial with CSV input including negative values
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 5})
-    @Order(4)
-    @DisplayName("Test Factorial Method with parameterized values")
-    public void testFactorial(int input) {
-    	System.out.println("Running tests for the factorial() method with valid input");
+    @CsvSource({
+        "0, 1",       // Factorial of 0 is 1
+        "1, 1",       // Factorial of 1 is 1
+        "5, 120",     // Factorial of 5 is 120
+        "-1, -1"      // Factorial of -1 is invalid (expected to throw exception or return -1)
+    })
 
-        if (input == 0) {
-            assertEquals(1, calc.factorial(0), "Factorial of 0 should equal 1");
-        } else if (input == 1) {
-            assertEquals(1, calc.factorial(1), "Factorial of 1 should equal 1");
-        } else if (input == 5) {
-            assertEquals(120, calc.factorial(5), "Factorial of 5 should equal 120");
+    @Order(4)
+    @DisplayName("Test Factorial Method with parameterized values including negative")
+    public void testFactorial(int input, int expected) {
+        System.out.println("Running tests for the factorial() method with input: " + input);
+
+        if (input >= 0) {
+            // Test expected factorial result for non-negative inputs
+            assertEquals(expected, calc.factorial(input), "Factorial of " + input + " should equal " + expected);
+        } else {
+            // Test for negative values, expecting an exception or a specific value like -1
+            assertThrows(IllegalArgumentException.class, () -> calc.factorial(input), "Factorial of negative number should throw an exception");
         }
+
     }
     
  // Timeout test for factorial method (testing a large value)
