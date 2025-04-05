@@ -137,5 +137,52 @@ public class ProductTest {
             assertEquals(1520, finalPrice, 0.01, "Final price should be 1520 after 5% discount");
             System.out.println("Applied 5% discount to iPhone 16 Pro Max and checked final price");
     }
+    
+ // Test all products with valid discounts in a single test
+    @Test
+    @DisplayName("Test Apply Discounts to All Products Successfully")
+    public void testApplyDiscountToAllProducts() {
+        System.out.println("Running tests for applying discounts to all products");
+
+        laptop.applyDiscount(15);
+        smartphone.applyDiscount(20);
+        headphones.applyDiscount(10);
+        iphone.applyDiscount(25);
+        hyperXCloud.applyDiscount(30);
+        airpods.applyDiscount(5);
+
+        assertEquals(1700, laptop.getFinalPrice(), 0.01, "Final price for MacBook Pro should be 1700 after 15% discount");
+        System.out.println("Checked final price for MacBook Pro");
+
+        assertEquals(720, smartphone.getFinalPrice(), 0.01, "Final price for Samsung Galaxy S23 should be 720 after 20% discount");
+        System.out.println("Checked final price for Samsung Galaxy S23");
+
+        assertEquals(315, headphones.getFinalPrice(), 0.01, "Final price for Beyerdynamic DT 700 PRO X should be 315 after 10% discount");
+        System.out.println("Checked final price for Beyerdynamic DT 700 PRO X");
+
+        assertEquals(1200, iphone.getFinalPrice(), 0.01, "Final price for iPhone 16 Pro Max should be 1200 after 25% discount");
+        System.out.println("Checked final price for iPhone 16 Pro Max");
+
+        assertEquals(70, hyperXCloud.getFinalPrice(), 0.01, "Final price for HyperX Cloud 2 should be 70 after 30% discount");
+        System.out.println("Checked final price for HyperX Cloud 2");
+
+        assertEquals(237.5, airpods.getFinalPrice(), 0.01, "Final price for AirPods Pro should be 237.5 after 5% discount");
+        System.out.println("Checked final price for AirPods Pro");
+    }
+
+    // Test multiple assertions on product
+    @Test
+    @DisplayName("Test Multiple Assertions on HyperX Cloud 2 with Discount Applied")
+    public void testHyperXCloud() {
+        System.out.println("Running tests for multiple assertions on HyperX Cloud 2");
+
+        hyperXCloud.applyDiscount(10);
+        assertAll("HyperX Cloud 2 Discount Check",
+            () -> assertEquals(90, hyperXCloud.getFinalPrice(), 0.01, "Final price for HyperX Cloud 2 should be 90 after 10% discount"),
+            () -> assertEquals("HyperX Cloud 2", hyperXCloud.getName(), "Product name should be HyperX Cloud 2"),
+            () -> assertEquals(100, hyperXCloud.getPrice(), 0.01, "Price for HyperX Cloud 2 should be 100")
+        );
+        System.out.println("Checked multiple assertions for HyperX Cloud 2");
+    }
 
 }
