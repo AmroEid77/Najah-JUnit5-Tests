@@ -58,5 +58,32 @@ class UserServiceSimpleTest {
 	        assertFalse(user.isValidEmail("amroeiddgmail.com"), "Email should be invalid");
 	        System.out.println("Test passed: Invalid email format (missing @)");
 	    }
+	    
+	    // Test Empty Email
+	    @Test
+	    @DisplayName("Test Invalid Email Format (Empty Email)")
+	    public void testInvalidEmailEmpty() {
+	        System.out.println("Testing empty email format");
+	        assertFalse(user.isValidEmail(""), "Email should be invalid");
+	        System.out.println("Test passed: Empty email is invalid");
+	    }
+
+	    // Test Invalid Authentication (Incorrect credentials)
+	    @Test
+	    @DisplayName("Test Invalid Username and Password (Incorrect credentials)")
+	    public void testInvalidAuthentication() {
+	        System.out.println("Testing invalid username and password");
+	        assertFalse(user.authenticate("amro", "wrongpassword"), "Authentication should fail with incorrect credentials");
+	        System.out.println("Test passed: Authentication failed for incorrect credentials");
+	    }
+
+	    // Test Valid Authentication (Correct credentials)
+	    @Test
+	    @DisplayName("Test Valid Username and Password (Correct credentials)")
+	    public void testValidAuthentication() {
+	        System.out.println("Testing valid username and password");
+	        assertTrue(user.authenticate("admin", "1234"), "Authentication should succeed with correct credentials");
+	        System.out.println("Test passed: Authentication succeeded for correct credentials");
+	    }
 
 }
