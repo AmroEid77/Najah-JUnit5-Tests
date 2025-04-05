@@ -11,7 +11,6 @@ import org.junit.platform.suite.api.Suite;
 //For packages (not practical))
 @SelectPackages("main.najah.test")
 
-class TestSuite {
-
+public class TestSuite {
 
 }
