@@ -64,6 +64,6 @@ To run the tests, use the following steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/Najah-JUnit5-Tests
-2. Open the project in your favorite IDE that support Java or run the tests
+2. Open the project in your favorite IDE that supports Java and run the tests
 
 3. Run the code :)
